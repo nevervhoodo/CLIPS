@@ -12,6 +12,7 @@
 (deftemplate REGIONS::region
   (slot region-name (default ?NONE))
   (multislot top-season )
+)
 
 (deffacts REGIONS::the-region-list
   (region (name Russia) (top-season (jun, jul, aug)) (body medium))
@@ -21,8 +22,7 @@
 
 (deftemplate LOCATIONS::location
   (slot location-name (default ?NONE))
-  (slot popularity (type INTEGER))
-  (slot far-away (type INTEGER))	
+  (slot popularity (type INTEGER))	
   (slot russian-lang (type INTEGER))
   (slot english-lang (type INTEGER))
   (slot trip-availiable (type INTEGER))
@@ -33,11 +33,22 @@
   (slot sightseeing (type INTEGER))
   (slot sea (type INTEGER))
   (slot exotic (type INTEGER))
+  (slot region (type REGIONS::region))
 )
 
 (deffacts LOCATIONS::the-location-list
-  (location (location-name Moscow) (popularity 8) (far-away 0) (russian-lang 1) (english-lang 0) (trip-availiable 1) 
-	(price-level $$) (children-oriented 1) (party-oriented 1) (specific-entertainment ()) (sightseeing 1) (sea 0) (exotic 0))
+  (location (location-name Russia-Cities) (popularity 8) (russian-lang 1) (english-lang 0) (trip-availiable 1) (price-level $) 
+	(children-oriented 1) (party-oriented 1) (specific-entertainment ()) (sightseeing 1) (sea 0) (exotic 0) (region REGIONS::Russia))
 )
   
-(defmodule DESTINATION (import MAIN ?ALL))
+(defmodule DESTINATION (import MAIN ?ALL)) 
+
+(deftemplate DESTINATION::destination
+  (slot destination-name (default ?NONE))
+  (slot far-away (type INTEGER))
+  (slot location (type LOCATIONS::location))
+)
+
+(deffacts DESTINATION::destinations-list
+	(destination (destination-name Moscow) (far-away 0) (location LOCATIONS::Russia-Cities))
+)
