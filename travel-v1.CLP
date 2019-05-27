@@ -40,5 +40,16 @@
     (sea 0)
     (exotic 0)
   )
+	; =================================================================
 )
+
+(deftemplate question (slot answer))
+
+(deftemplate response (slot destination))
+
+(defrule select-beach "Select Sea holiday" (question (answer 1)) => 
+	(assert (response (destination Russia-Cities)))
+)
+
+(defrule print "Print" => (printout t "RESULT is " crlf))
 
