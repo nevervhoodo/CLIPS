@@ -8,9 +8,9 @@
 ;;;======================================================
 
 
-(defmodule LOCATIONS (import MAIN ?ALL)) 
+; (defmodule LOCATIONS) 
 
-(deftemplate LOCATIONS::location
+(deftemplate location
   (slot location-name (default ?NONE))
   (slot popularity (type INTEGER))	
   (slot russian-lang (type INTEGER))
@@ -19,14 +19,13 @@
   (slot price-level (default $$$$))
   (slot children-oriented (type INTEGER))
   (slot party-oriented (type INTEGER))
-  (multislot specific-entertainment)
+; (multislot specific-entertainment)
   (slot sightseeing (type INTEGER))
   (slot sea (type INTEGER))
   (slot exotic (type INTEGER))
-  (slot region (type REGIONS::region))
 )
 
-(deffacts LOCATIONS::the-location-list
+(deffacts the_location_list
   (location (location-name Russia-Cities) (popularity 8) (russian-lang 1) (english-lang 0) (trip-availiable 1) (price-level $) 
-	(children-oriented 1) (party-oriented 1) (specific-entertainment ()) (sightseeing 1) (sea 0) (exotic 0) (region REGIONS::Russia))
+	(children-oriented 1) (party-oriented 1)  (sightseeing 1) (sea 0) (exotic 0))
 )
