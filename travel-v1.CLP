@@ -518,41 +518,49 @@
     (retract ?dest)
 )
 
+(defrule select-english-no "Select civilization" 
+    (answer (name russian-lang) (value yes))
+    ?dest <- (location (russian-lang 1))
+    => 
+    (retract ?dest)
+)
+
+
 (defrule select-civilization-yes "Select civilization" 
     (answer (name out-of-civilization) (value yes))
-    ?dest <- (location (civilization 0))
+    ?dest <- (location (out-of-civilization 0))
     => 
     (retract ?dest)
 )
 (defrule select-civilization-no "Select civilization" 
     (answer (name out-of-civilization) (value no))
-    ?dest <- (location (civilization 1))
+    ?dest <- (location (out-of-civilization 1))
     => 
     (retract ?dest)
 )
 
 (defrule select-children-yes "Select children" 
     (answer (name children-oriented) (value yes))
-    ?dest <- (location (children 0))
+    ?dest <- (location (children-oriented 0))
     => 
     (retract ?dest)
 )
 (defrule select-children-no "Select children" 
     (answer (name children-oriented) (value no))
-    ?dest <- (location (children 1))
+    ?dest <- (location (children-oriented 1))
     => 
     (retract ?dest)
 )
 
 (defrule select-party-yes "Select party" 
     (answer (name party-oriented) (value yes))
-    ?dest <- (location (party 0))
+    ?dest <- (location (party-oriented 0))
     => 
     (retract ?dest)
 )
 (defrule select-party-no "Select party" 
     (answer (name party-oriented) (value no))
-    ?dest <- (location (party 1))
+    ?dest <- (location (party-oriented 1))
     => 
     (retract ?dest)
 )
@@ -572,7 +580,7 @@
 
 (defrule select-month "Select month" 
     (answer (name top-season) (value ?value))
-    ?dest <- (location (exotic ?value))
+    ?dest <- (location (top-season ?value))
     => 
     (retract ?dest)
 )
