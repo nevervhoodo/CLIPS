@@ -518,13 +518,33 @@
     (retract ?dest)
 )
 
-(defrule select-english-no "Select civilization" 
+(defrule select-activities-value "Select activities" 
+    (answer (name activities) (value ?value))
+    ?dest <- (location (activities ?value))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-english-no "Select lang" 
     (answer (name russian-lang) (value yes))
     ?dest <- (location (russian-lang 1))
     => 
     (retract ?dest)
 )
 
+
+(defrule select-sightseeing-yes "Select sightseeing" 
+    (answer (name sightseeing) (value yes))
+    ?dest <- (location (sightseeing 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-sightseeing-no "Select sightseeing" 
+    (answer (name sightseeing) (value no))
+    ?dest <- (location (sightseeing 1))
+    => 
+    (retract ?dest)
+)
 
 (defrule select-civilization-yes "Select civilization" 
     (answer (name out-of-civilization) (value yes))
