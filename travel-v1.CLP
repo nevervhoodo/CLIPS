@@ -417,7 +417,7 @@
    (bind ?got-answer (read))
    (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
    (if (not (eq (length$ ?allowed-values) 0)) then 
-	  (while (not (member ?got-answer ?allowed-values)) do
+	  (while (not (member$ ?got-answer ?allowed-values)) do
 		(printout t ?question)
 		(bind ?got-answer (read))
 		(if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
@@ -429,7 +429,7 @@
 ;	(bind ?res FALSE)
 ;	(bind ?values (create$))
 ;	(do-for-all-facts ((?ins location)) TRUE (?f)
-;		(if (not (member (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
+;		(if (not (member$ (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
 ;	)
 ;	(if (> (length$ (?values)) 1) then (bind ?res TRUE))
 ; ?res
@@ -437,7 +437,7 @@
 
 ;(deffunction foreach (?fact-list ?name ?values)
 ;	(if (> (length$ ?fact-list) 0) then (
-;			(if (not (member ((first$ ?fact-list) ?name) ?values)) then (insert$ ((first$ ?fact-list) ?name) ?values))
+;			(if (not (member$ ((first$ ?fact-list) ?name) ?values)) then (insert$ ((first$ ?fact-list) ?name) ?values))
 ;			(bind ?res (foreach (rest$ ?fact-list) ?name ?values))
 ;		)
 ;		else (bind ?res ?value)
