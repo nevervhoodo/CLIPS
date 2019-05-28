@@ -447,40 +447,52 @@
     (question (answer-name price)
             (the-question "How much money are you ready to spend?" )
             (valid-answers $ $$ $$$ $$$$))
-    (question (answer-name price)
+    
+    (question (answer-name distance)
             (the-question "How far you want to go?" )
             (valid-answers near normal far))
+    
     (question (answer-name sea)
             (the-question "Do you want to go to the sea?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name language)
             (the-question "Can you speek English?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name trip-around)
             (the-question "Are planning to trip around?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name sightseeing)
             (the-question "Do you want some sightseeing?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name civilization)
             (the-question "Do you need civilization around there?" )
             (valid-answers yes no "no matter"))
-    (question (answer-name sea)
+    
+    (question (answer-name activities)
             (the-question "What activities to you want to have?" )
             (valid-answers diving motocross safari surfing shopping ski))
-    (question (answer-name sea)
+    
+    (question (answer-name children)
             (the-question "Are you going with children?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name party)
             (the-question "Are you going a big party?" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name month)
             (the-question "When are you planning to go?" )
             (valid-answers jan feb march apr may jun jul aug sep oct nov dec))
-    (question (answer-name sea)
+    
+    (question (answer-name exotic)
             (the-question "Wanna have some exotic?))" )
             (valid-answers yes no))
-    (question (answer-name sea)
+    
+    (question (answer-name region)
             (the-question "What region you wanna go?" )
             (valid-answers Africa Far-East Near-East Russia America "no matter"))
 )
