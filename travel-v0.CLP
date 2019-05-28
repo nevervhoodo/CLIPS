@@ -7,7 +7,7 @@
 ;;;   To execute, merely load, reset and run.
 ;;;======================================================
 
-(defmodule REGIONS (import MAIN ?ALL))
+(defmodule REGIONS)
 
 (deftemplate REGIONS::region
   (slot region-name (default ?NONE))

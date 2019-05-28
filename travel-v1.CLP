@@ -10,6 +10,7 @@
 
 ; (defmodule LOCATIONS) 
 
+
 (deftemplate location
   (slot location-name (default ?NONE))
   (slot popularity (type INTEGER))	
