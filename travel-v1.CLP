@@ -571,7 +571,7 @@
 )
 
 (defrule select-month "Select month" 
-    (answer (name month) (value ?value))
+    (answer (name top-season) (value ?value))
     ?dest <- (location (exotic ?value))
     => 
     (retract ?dest)
