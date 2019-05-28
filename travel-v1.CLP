@@ -394,8 +394,6 @@
 
 (deftemplate response (slot destination))
 
-(defrule print "Print" => (printout t "RESULT is " crlf))
-
 (deftemplate question
    (slot the-question)
    (multislot valid-answers)
@@ -407,78 +405,29 @@
 	(slot value)
 )
 
-(defrule select-beach "Select Sea holiday" (answer (value 1)) => 
-	(assert (response (destination Russia-Cities)))
-)
-
-(deffunction ask (?question ?allowed-values)
-   (printout t ?question crlf)
-   (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
-   (bind ?got-answer (read))
-   (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
-   (if (not (eq (length$ ?allowed-values) 0)) then 
-	  (while (not (member$ ?got-answer ?allowed-values)) do
-		(printout t ?question)
-		(bind ?got-answer (read))
-		(if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
-	)
-   ?got-answer
-)
-
-;(deffunction interesting (?name)
-;	(bind ?res FALSE)
-;	(bind ?values (create$))
-;	(do-for-all-facts ((?ins location)) TRUE (?f)
-;		(if (not (member$ (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
-;	)
-;	(if (> (length$ (?values)) 1) then (bind ?res TRUE))
-; ?res
-;)
-
-;(deffunction foreach (?fact-list ?name ?values)
-;	(if (> (length$ ?fact-list) 0) then (
-;			(if (not (member$ ((first$ ?fact-list) ?name) ?values)) then (insert$ ((first$ ?fact-list) ?name) ?values))
-;			(bind ?res (foreach (rest$ ?fact-list) ?name ?values))
-;		)
-;		else (bind ?res ?value)
-;	)
-;?res)
-
-
 (deffunction count-facts (?template)
   (bind ?count 0)
   (do-for-all-facts ((?fct ?template)) TRUE
     (bind ?count (+ ?count 1)))
  ?count)
 
-(deftemplate values
-	(slot name)
-)
+(deffunction ask (?question ?allowed-values)
+	;(if (< (count-facts location) 3) then (
+	;	(printout t ((first$ the_location_list) name) crlf)
+	;) else (
 
-(deffunction count-usages (?slot-name)
-	(do-for-all-facts ((?fct location)) TRUE
-		;(printout t  (member$ (fact-slot-value ?fct ?slot-name) values) crlf)
-		(assert (values (name (fact-slot-value ?fct ?slot-name))))
-	)
-(count-facts values)
-)
-
-(deftemplate attribute
-	(slot name)
-	(slot important (default yes))
-)
-
-(defrule ask-a-question
-   ?f <- (question (the-question ?the-question)
-                   (valid-answers $?valid-answers)
-				   (answer-name ?name))
-   =>
-   (printout t (count-usages ?name) crlf)
-   ;(if (> (count-usages ?name) 1) then 
-	;	(assert (answer (name ?name)
-    ;        (value (ask ?the-question ?valid-answers))))
-	;)
-	
+	   (printout t ?question crlf)
+	   (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
+	   (bind ?got-answer (read))
+	   (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
+	   (if (not (eq (length$ ?allowed-values) 0)) then 
+		  (while (not (member$ ?got-answer ?allowed-values)) do
+			(printout t ?question)
+			(bind ?got-answer (read))
+			(if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
+		)
+   ?got-answer
+   ;)
 )
 
 (deffacts question-set
@@ -535,16 +484,39 @@
             (valid-answers Africa Far-East Near-East Russia America "no matter"))
 )
 
-(defrule select-region-value "Select region" 
-    (answer (name region) (value ?value))
-    ?dest <- (location (region ?value))
+(defrule ask-a-question
+   ?t <- (question (the-question ?the-question)
+             (valid-answers ?valid-answers)
+			 (answer-name ?slot-name))
+	;?l1 <- (location)
+	;?l2 <- (location)
+	;(not (eq ?l1:?slot-name ?l2:?slot-name))
+    =>
+   (assert (answer (name ?slot-name)
+					(value (ask ?the-question ?valid-answers))))	
+	;(retract ?t)
+)
+
+(defrule select-month "Select month" 
+    (answer (name top-season) (value ?value))
+    ?dest <- (location (top-season !~?value))
     => 
     (retract ?dest)
 )
 
+(defrule select-region-value "Select region" 
+    (answer (name region) (value ?value))  
+    ?dest <- (location (location-name ?name) (region ?reg))
+	(not (eq ?reg ?value))
+    => 
+	(retract ?dest)
+)
+
+
 (defrule select-specific-entertainment-value "Select specific-entertainment" 
     (answer (name specific-entertainment) (value ?value))
-    ?dest <- (location (specific-entertainment ?value))
+    ?dest <- (location (specific-entertainment ?entertainment))
+	(not (eq ?entertainment ?value))
     => 
     (retract ?dest)
 )
@@ -634,13 +606,6 @@
     (retract ?dest)
 )
 
-(defrule select-month "Select month" 
-    (answer (name top-season) (value ?value))
-    ?dest <- (location (top-season ?value))
-    => 
-    (retract ?dest)
-)
-
 
 (defrule select-beach-yes "Select sea holiday" 
 	(answer (name sea) (value yes))
@@ -654,5 +619,4 @@
 	=> 
 	(retract ?dest)
 )
-
 
