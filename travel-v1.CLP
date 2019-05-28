@@ -454,19 +454,19 @@
     
     (question (answer-name sea)
             (the-question "Do you want to go to the sea?" )
-            (valid-answers yes no))
+            (valid-answers yes no "no matter"))
     
     (question (answer-name language)
             (the-question "Can you speek English?" )
-            (valid-answers yes no))
+            (valid-answers yes no "no matter"))
     
     (question (answer-name trip-around)
             (the-question "Are planning to trip around?" )
-            (valid-answers yes no))
+            (valid-answers yes no "no matter"))
     
     (question (answer-name sightseeing)
             (the-question "Do you want some sightseeing?" )
-            (valid-answers yes no))
+            (valid-answers yes no "no matter"))
     
     (question (answer-name civilization)
             (the-question "Do you need civilization around there?" )
@@ -490,7 +490,7 @@
     
     (question (answer-name exotic)
             (the-question "Wanna have some exotic?))" )
-            (valid-answers yes no))
+            (valid-answers yes no "no matter"))
     
     (question (answer-name region)
             (the-question "What region you wanna go?" )
