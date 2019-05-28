@@ -14,7 +14,6 @@
   (slot location-name (default ?NONE))
   (slot popularity (type INTEGER))	
   (slot russian-lang (type INTEGER))
-  (slot english-lang (type INTEGER))
   (slot trip-availiable (type INTEGER))
   (slot price-level (default $$$$))
   (slot children-oriented (type INTEGER))
@@ -34,7 +33,6 @@
     (location-name Moscow)
     (popularity 8)
     (russian-lang 1)
-    (english-lang 0)
     (trip-availiable 1)
     (price-level $) 
 	(children-oriented 1)
@@ -53,7 +51,6 @@
     (location-name Saint-Petersburg)
     (popularity 9)
     (russian-lang 1)
-    (english-lang 0)
     (trip-availiable 1)
     (price-level $) 
 	(children-oriented 1)
@@ -72,7 +69,6 @@
     (location-name Kazan)
     (popularity 9)
     (russian-lang 1)
-    (english-lang 0)
     (trip-availiable 1)
     (price-level $) 
 	(children-oriented 1)
@@ -91,7 +87,6 @@
     (location-name Turkey)
     (popularity 9)
     (russian-lang 1)
-    (english-lang 1)
     (trip-availiable 1)
     (price-level $) 
 	(children-oriented 1)
@@ -115,7 +110,7 @@
     (price-level $) 
     (children-oriented 1)
     (party-oriented 1)
-    (specific-entertainment diving)
+    (specific-entertainment diving motocross)
     (sightseeing 0)
     (sea 1)
     (exotic 1)
@@ -396,13 +391,64 @@
   )
 )
 
-(deftemplate question (slot answer))
-
 (deftemplate response (slot destination))
-
-(defrule select-beach "Select Sea holiday" (question (answer 1)) => 
-	(assert (response (destination Russia-Cities)))
-)
 
 (defrule print "Print" => (printout t "RESULT is " crlf))
 
+(deftemplate question
+   (slot the-question)
+   (multislot valid-answers)
+   (slot answer-name)
+)
+   
+(deftemplate answer 
+	(slot name)
+	(slot value)
+)
+
+(defrule select-beach "Select Sea holiday" (answer (value 1)) => 
+	(assert (response (destination Russia-Cities)))
+)
+
+(deffunction ask (?question ?allowed-values)
+   (printout t ?question crlf)
+   (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
+   (bind ?got-answer (read))
+   (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
+   (if (not (eq (length$ ?allowed-values) 0)) then 
+	  (while (not (member ?got-answer ?allowed-values)) do
+		(printout t ?question)
+		(bind ?got-answer (read))
+		(if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
+	)
+   ?got-answer
+)
+
+(defrule ask-a-question
+   ?f <- (question (the-question ?the-question)
+                   (valid-answers $?valid-answers)
+				   (answer-name ?name))
+   =>
+   (assert (answer (name ?name)
+            (value (ask ?the-question ?valid-answers))))
+)
+
+(deffacts question-set
+    (question (answer-name price)
+            (the-question "How much money are you ready to spend?" )
+            (valid-answers $ $$ $$$ $$$$))
+	(question (answer-name sea)
+            (the-question "Do you want to go to the sea?" )
+            (valid-answers yes no))
+)
+
+(defrule select-beach-yes "Select sea holiday" 
+	(answer (name sea) (value yes))
+	=> 
+	(retract 1)
+)
+(defrule select-beach-no "Select sea holiday" 
+	(answer (name sea) (value no))
+	=> 
+	(retract 4)
+)
