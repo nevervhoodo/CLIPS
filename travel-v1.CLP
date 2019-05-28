@@ -542,41 +542,81 @@
     (retract ?dest)
 )
 
+(defrule select-activities-value "Select activities" 
+    (answer (name activities) (value ?value))
+    ?dest <- (location (activities ?value))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-english-no "Select lang" 
+    (answer (name russian-lang) (value yes))
+    ?dest <- (location (russian-lang 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-trip-around-yes "Select trip-around" 
+    (answer (name trip-availiable) (value yes))
+    ?dest <- (location (trip-availiable 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-trip-around-no "Select trip-around" 
+    (answer (name trip-availiable) (value no))
+    ?dest <- (location (trip-availiable 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-sightseeing-yes "Select sightseeing" 
+    (answer (name sightseeing) (value yes))
+    ?dest <- (location (sightseeing 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-sightseeing-no "Select sightseeing" 
+    (answer (name sightseeing) (value no))
+    ?dest <- (location (sightseeing 1))
+    => 
+    (retract ?dest)
+)
+
 (defrule select-civilization-yes "Select civilization" 
     (answer (name out-of-civilization) (value yes))
-    ?dest <- (location (civilization 0))
+    ?dest <- (location (out-of-civilization 0))
     => 
     (retract ?dest)
 )
 (defrule select-civilization-no "Select civilization" 
     (answer (name out-of-civilization) (value no))
-    ?dest <- (location (civilization 1))
+    ?dest <- (location (out-of-civilization 1))
     => 
     (retract ?dest)
 )
 
 (defrule select-children-yes "Select children" 
     (answer (name children-oriented) (value yes))
-    ?dest <- (location (children 0))
+    ?dest <- (location (children-oriented 0))
     => 
     (retract ?dest)
 )
 (defrule select-children-no "Select children" 
     (answer (name children-oriented) (value no))
-    ?dest <- (location (children 1))
+    ?dest <- (location (children-oriented 1))
     => 
     (retract ?dest)
 )
 
 (defrule select-party-yes "Select party" 
     (answer (name party-oriented) (value yes))
-    ?dest <- (location (party 0))
+    ?dest <- (location (party-oriented 0))
     => 
     (retract ?dest)
 )
 (defrule select-party-no "Select party" 
     (answer (name party-oriented) (value no))
-    ?dest <- (location (party 1))
+    ?dest <- (location (party-oriented 1))
     => 
     (retract ?dest)
 )
@@ -596,7 +636,7 @@
 
 (defrule select-month "Select month" 
     (answer (name top-season) (value ?value))
-    ?dest <- (location (exotic ?value))
+    ?dest <- (location (top-season ?value))
     => 
     (retract ?dest)
 )
