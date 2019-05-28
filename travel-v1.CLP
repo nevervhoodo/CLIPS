@@ -550,8 +550,8 @@
 )
 
 (defrule select-english-no "Select lang" 
-    (answer (name russian-lang) (value yes))
-    ?dest <- (location (russian-lang 1))
+    (answer (name russian-lang) (value no))
+    ?dest <- (location (russian-lang 0))
     => 
     (retract ?dest)
 )
