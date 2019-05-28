@@ -511,6 +511,73 @@
             (valid-answers Africa Far-East Near-East Russia America "no matter"))
 )
 
+(defrule select-region-value "Select region" 
+    (answer (name region) (value ?value))
+    ?dest <- (location (region ?value))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-civilization-yes "Select civilization" 
+    (answer (name out-of-civilization) (value yes))
+    ?dest <- (location (civilization 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-civilization-no "Select civilization" 
+    (answer (name out-of-civilization) (value no))
+    ?dest <- (location (civilization 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-children-yes "Select children" 
+    (answer (name children-oriented) (value yes))
+    ?dest <- (location (children 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-children-no "Select children" 
+    (answer (name children-oriented) (value no))
+    ?dest <- (location (children 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-party-yes "Select party" 
+    (answer (name party-oriented) (value yes))
+    ?dest <- (location (party 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-party-no "Select party" 
+    (answer (name party-oriented) (value no))
+    ?dest <- (location (party 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-exotic-yes "Select exotic" 
+    (answer (name exotic) (value yes))
+    ?dest <- (location (exotic 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-exotic-no "Select exotic" 
+    (answer (name exotic) (value no))
+    ?dest <- (location (exotic 1))
+    => 
+    (retract ?dest)
+)
+
+(defrule select-month "Select month" 
+    (answer (name month) (value ?value))
+    ?dest <- (location (exotic ?value))
+    => 
+    (retract ?dest)
+)
+
+
 (defrule select-beach-yes "Select sea holiday" 
 	(answer (name sea) (value yes))
 	?dest <- (location (sea 0))
