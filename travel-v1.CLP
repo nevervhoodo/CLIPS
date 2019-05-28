@@ -542,9 +542,9 @@
     (retract ?dest)
 )
 
-(defrule select-activities-value "Select activities" 
-    (answer (name activities) (value ?value))
-    ?dest <- (location (activities ?value))
+(defrule select-specific-entertainment-value "Select specific-entertainment" 
+    (answer (name specific-entertainment) (value ?value))
+    ?dest <- (location (specific-entertainment ?value))
     => 
     (retract ?dest)
 )
