@@ -532,6 +532,18 @@
     (retract ?dest)
 )
 
+(defrule select-trip-around-yes "Select trip-around" 
+    (answer (name trip-availiable) (value yes))
+    ?dest <- (location (trip-availiable 0))
+    => 
+    (retract ?dest)
+)
+(defrule select-trip-around-no "Select trip-around" 
+    (answer (name trip-availiable) (value no))
+    ?dest <- (location (trip-availiable 1))
+    => 
+    (retract ?dest)
+)
 
 (defrule select-sightseeing-yes "Select sightseeing" 
     (answer (name sightseeing) (value yes))
