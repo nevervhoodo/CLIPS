@@ -311,7 +311,7 @@
     (party-oriented 1)
     (specific-entertainment shopping)
     (sightseeing 1)
-    (sea 0)
+    (sea 1)
     (exotic 0)
     (out-of-civilization 0)
     (region Far-East)
@@ -425,6 +425,15 @@
    ?got-answer
 )
 
+(deffunction interesting (?name)
+	(bind ?res FALSE)
+	(bind ?values (create$))
+	(do-for-all-facts ((?ins the_location_list)) TRUE
+		(if (not (member (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
+	)
+	(if (> (length$ (?values)) 1) then (bind ?res TRUE))
+ ?res)
+
 (defrule ask-a-question
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
@@ -440,16 +449,18 @@
             (valid-answers $ $$ $$$ $$$$))
 	(question (answer-name sea)
             (the-question "Do you want to go to the sea?" )
-            (valid-answers yes no))
+            (valid-answers yes no mb))
 )
 
 (defrule select-beach-yes "Select sea holiday" 
 	(answer (name sea) (value yes))
+	?dest <- (location (sea 0))
 	=> 
-	(retract 1)
+	(retract ?dest)
 )
 (defrule select-beach-no "Select sea holiday" 
 	(answer (name sea) (value no))
+	?dest <- (location (sea 1))
 	=> 
-	(retract 4)
+	(retract ?dest)
 )
