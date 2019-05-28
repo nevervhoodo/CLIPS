@@ -425,22 +425,36 @@
    ?got-answer
 )
 
-(deffunction interesting (?name)
-	(bind ?res FALSE)
-	(bind ?values (create$))
-	(do-for-all-facts ((?ins the_location_list)) TRUE
-		(if (not (member (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
-	)
-	(if (> (length$ (?values)) 1) then (bind ?res TRUE))
- ?res)
+;(deffunction interesting (?name)
+;	(bind ?res FALSE)
+;	(bind ?values (create$))
+;	(do-for-all-facts ((?ins location)) TRUE (?f)
+;		(if (not (member (?ins ?name) ?values)) then (insert$ (?ins ?name) ?values))
+;	)
+;	(if (> (length$ (?values)) 1) then (bind ?res TRUE))
+; ?res
+;)
+
+;(deffunction foreach (?fact-list ?name ?values)
+;	(if (> (length$ ?fact-list) 0) then (
+;			(if (not (member ((first$ ?fact-list) ?name) ?values)) then (insert$ ((first$ ?fact-list) ?name) ?values))
+;			(bind ?res (foreach (rest$ ?fact-list) ?name ?values))
+;		)
+;		else (bind ?res ?value)
+;	)
+;?res)
 
 (defrule ask-a-question
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
 				   (answer-name ?name))
+	?l1 <- (location)
+	?l2 <- (location)
    =>
-   (assert (answer (name ?name)
+   (if (not (eq (?l1 ?name) (?l2 ?name))) then 
+   ((assert (answer (name ?name)
             (value (ask ?the-question ?valid-answers))))
+	))
 )
 
 (deffacts question-set
@@ -464,3 +478,5 @@
 	=> 
 	(retract ?dest)
 )
+
+
