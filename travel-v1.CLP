@@ -444,17 +444,41 @@
 ;	)
 ;?res)
 
+
+(deffunction count-facts (?template)
+  (bind ?count 0)
+  (do-for-all-facts ((?fct ?template)) TRUE
+    (bind ?count (+ ?count 1)))
+ ?count)
+
+(deftemplate values
+	(slot name)
+)
+
+(deffunction count-usages (?slot-name)
+	(do-for-all-facts ((?fct location)) TRUE
+		;(printout t  (member$ (fact-slot-value ?fct ?slot-name) values) crlf)
+		(assert (values (name (fact-slot-value ?fct ?slot-name))))
+	)
+(count-facts values)
+)
+
+(deftemplate attribute
+	(slot name)
+	(slot important (default yes))
+)
+
 (defrule ask-a-question
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
 				   (answer-name ?name))
-	?l1 <- (location)
-	?l2 <- (location)
    =>
-   (if (not (eq (?l1 ?name) (?l2 ?name))) then 
-   ((assert (answer (name ?name)
-            (value (ask ?the-question ?valid-answers))))
-	))
+   (printout t (count-usages ?name) crlf)
+   ;(if (> (count-usages ?name) 1) then 
+	;	(assert (answer (name ?name)
+    ;        (value (ask ?the-question ?valid-answers))))
+	;)
+	
 )
 
 (deffacts question-set
@@ -488,7 +512,7 @@
     
     (question (answer-name activities)
             (the-question "What activities to you want to have?" )
-            (valid-answers diving motocross safari surfing shopping ski))
+            (valid-answers diving motocross safari surfing shopping ski none))
     
     (question (answer-name children)
             (the-question "Are you going with children?" )
@@ -498,7 +522,7 @@
             (the-question "Are you going a big party?" )
             (valid-answers yes no))
     
-    (question (answer-name month)
+    (question (answer-name top-season)
             (the-question "When are you planning to go?" )
             (valid-answers jan feb march apr may jun jul aug sep oct nov dec))
     
