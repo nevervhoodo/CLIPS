@@ -603,7 +603,7 @@
     
     (question (answer-name region)
             (the-question "What region you wanna go?" )
-            (valid-answers africa far-east near-east russia america mb))
+            (valid-answers europa africa far-east near-east russia america mb))
 )
 
 (deffunction count-facts (?template)
