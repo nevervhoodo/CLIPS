@@ -45,7 +45,7 @@
 )
 
 (deffacts the_location_list
-  (location 
+  (location
     (location-name Moscow)
     (popularity 8)
     (russian-lang 1)
@@ -63,7 +63,7 @@
     (far-away 0)
   )
   
-  (location 
+  (location
     (location-name Saint-Petersburg)
     (popularity 9)
     (russian-lang 1)
@@ -81,7 +81,25 @@
     (far-away 1)
   )
   
-  (location 
+  (location
+    (location-name Khimki)
+    (popularity 9)
+    (russian-lang 1)
+    (trip-availiable 1)
+    (price-level $) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment motocross safari shopping)
+    (sightseeing 1)
+    (sea 0)
+    (exotic 1)
+    (out-of-civilization 1)
+    (region russia)
+    (top-season jan feb march apr may jun jul aug sep oct nov dec)
+    (far-away 0)
+  )
+  
+  (location
     (location-name Kazan)
     (popularity 9)
     (russian-lang 1)
@@ -99,7 +117,7 @@
     (far-away 1)
   )
   
-  (location 
+  (location
     (location-name Turkey)
     (popularity 9)
     (russian-lang 1)
@@ -118,7 +136,7 @@
   )
     ; =================================================================
   
-  (location 
+  (location
     (location-name Vietnam)
     (popularity 6)
     (russian-lang 0)
@@ -136,7 +154,7 @@
     (far-away 4)
   )
 
-  (location 
+  (location
     (location-name Egypt)
     (popularity 3)
     (russian-lang 1)
@@ -154,7 +172,7 @@
     (far-away 3)
   )
   
-  (location 
+  (location
     (location-name Tunisia)
     (popularity 2)
     (russian-lang 1)
@@ -172,7 +190,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Morocco)
     (popularity 3)
     (russian-lang 0)
@@ -190,7 +208,7 @@
     (far-away 4)
   )
 
-  (location 
+  (location
     (location-name Tanzania)
     (popularity 1)
     (russian-lang 0)
@@ -208,7 +226,7 @@
     (far-away 5)
   )
 
-  (location 
+  (location
     (location-name Seychelles)
     (popularity 4)
     (russian-lang 0)
@@ -226,7 +244,7 @@
     (far-away 5)
   )
 
-  (location 
+  (location
     (location-name Maldives)
     (popularity 5)
     (russian-lang 1)
@@ -244,7 +262,7 @@
     (far-away 5)
   )
 
-  (location 
+  (location
     (location-name Cuba)
     (popularity 4)
     (russian-lang 0)
@@ -262,7 +280,7 @@
     (far-away 7)
   )
 
-  (location 
+  (location
     (location-name "Dominican Republic")
     (popularity 3)
     (russian-lang 0)
@@ -532,7 +550,7 @@
     (far-away 6)
   )
 
-  (location 
+  (location
     (location-name UAE)
     (popularity 4)
     (russian-lang 1)
@@ -550,7 +568,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Israel)
     (popularity 5)
     (russian-lang 1)
@@ -568,7 +586,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Georgia)
     (popularity 5)
     (russian-lang 1)
@@ -586,7 +604,7 @@
     (far-away 2)
   )
 
-  (location 
+  (location
     (location-name Armenia)
     (popularity 5)
     (russian-lang 1)
@@ -604,7 +622,7 @@
     (far-away 2)
   )
 
-  (location 
+  (location
     (location-name Germany)
     (popularity 5)
     (russian-lang 0)
@@ -622,7 +640,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name France)
     (popularity 6)
     (russian-lang 0)
@@ -640,7 +658,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name London)
     (popularity 5)
     (russian-lang 0)
@@ -658,7 +676,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Scotland)
     (popularity 4)
     (russian-lang 0)
@@ -676,7 +694,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Ireland)
     (popularity 4)
     (russian-lang 0)
@@ -694,7 +712,7 @@
     (far-away 3)
   )
 
-  (location 
+  (location
     (location-name Barcelona)
     (popularity 6)
     (russian-lang 0)
@@ -712,7 +730,7 @@
     (far-away 4)
   )
 
-  (location 
+  (location
     (location-name Portugal)
     (popularity 5)
     (russian-lang 0)
@@ -730,7 +748,7 @@
     (far-away 4)
   )
 
-  (location 
+  (location
     (location-name Italy)
     (popularity 6)
     (russian-lang 0)
