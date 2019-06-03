@@ -53,7 +53,7 @@
     (price-level $) 
     (children-oriented 1)
     (party-oriented 1)
-    (specific-entertainment)
+    (specific-entertainment shopping)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
@@ -71,7 +71,7 @@
     (price-level $) 
     (children-oriented 1)
     (party-oriented 1)
-    (specific-entertainment)
+    (specific-entertainment shopping)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
@@ -107,7 +107,7 @@
     (price-level $) 
     (children-oriented 1)
     (party-oriented 0)
-    (specific-entertainment)
+    (specific-entertainment shopping motocross safari)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
@@ -966,7 +966,7 @@
 )
 
 (defrule select-party-yes "Select party" 
-    (answer (name party-oriented) (value yes))
+    (answer (name party-oriented) (value ?value))
     ?dest <- (location (party-oriented 0))
     => 
     (if (> ?value 0) then (retract ?dest))
