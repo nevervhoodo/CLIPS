@@ -461,12 +461,6 @@
             (valid-answers africa far-east near-east russia america "no matter"))
 )
 
-(defrule print_location 
-	?l <- (location (location-name ?name))
-	=>
-	(printout t ?name crlf)
-)
-
 (deffunction count-facts (?template)
   (bind ?count 0)
   (do-for-all-facts ((?fct ?template)) TRUE
@@ -550,13 +544,12 @@
 	(if (> ?value 6) then (retract ?dest))
 )
 
-
 (defrule select-specific-entertainment-value "Select specific-entertainment" 
     (answer (name specific-entertainment) (value ?value))
-    ?dest <- (location (specific-entertainment ?entertainment))
-	(not (eq ?entertainment ?value))
+	?dest <- (location (location-name ?name) (specific-entertainment ?entertainment))
     => 
-    (retract ?dest)
+	(if (not (member$ ?value ?entertainment)) then 
+    (retract ?dest))
 )
 
 (defrule select-english-no "Select lang" 
