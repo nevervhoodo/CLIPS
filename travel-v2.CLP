@@ -11,7 +11,7 @@
 
 (deftemplate location
   (slot location-name (default ?NONE))
-  (slot popularity (type INTEGER))	
+  (slot popularity (type INTEGER))
   (slot russian-lang (type INTEGER))
   (slot trip-availiable (type INTEGER))
   (slot price-level (default $$$$))
@@ -28,7 +28,7 @@
 )
 
 (deftemplate stop
-	(slot finished (default FALSE))
+    (slot finished (default FALSE))
 )
 
 (deftemplate response (slot destination))
@@ -40,8 +40,8 @@
 )
    
 (deftemplate answer 
-	(slot name)
-	(slot value)
+    (slot name)
+    (slot value)
 )
 
 (deffacts the_location_list
@@ -51,16 +51,16 @@
     (russian-lang 1)
     (trip-availiable 1)
     (price-level $) 
-	(children-oriented 1)
+    (children-oriented 1)
     (party-oriented 1)
     (specific-entertainment)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
-	(out-of-civilization 0)
-	(region russia)
-	(top-season jan feb march apr may jun jul aug sep oct nov dec)
-	(far-away 0)
+    (out-of-civilization 0)
+    (region russia)
+    (top-season jan feb march apr may jun jul aug sep oct nov dec)
+    (far-away 0)
   )
   
   (location 
@@ -69,16 +69,16 @@
     (russian-lang 1)
     (trip-availiable 1)
     (price-level $) 
-	(children-oriented 1)
+    (children-oriented 1)
     (party-oriented 1)
     (specific-entertainment)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
-	(out-of-civilization 0)
-	(region russia)
-	(top-season jan feb march apr may jun jul aug sep oct nov dec)
-	(far-away 1)
+    (out-of-civilization 0)
+    (region russia)
+    (top-season jan feb march apr may jun jul aug sep oct nov dec)
+    (far-away 1)
   )
   
   (location 
@@ -87,16 +87,16 @@
     (russian-lang 1)
     (trip-availiable 1)
     (price-level $) 
-	(children-oriented 1)
+    (children-oriented 1)
     (party-oriented 0)
     (specific-entertainment)
     (sightseeing 1)
     (sea 0)
     (exotic 0)
-	(out-of-civilization 0)
-	(region russia)
-	(top-season jan feb march apr may jun jul aug sep oct nov dec)
-	(far-away 1)
+    (out-of-civilization 0)
+    (region russia)
+    (top-season jan feb march apr may jun jul aug sep oct nov dec)
+    (far-away 1)
   )
   
   (location 
@@ -105,18 +105,18 @@
     (russian-lang 1)
     (trip-availiable 1)
     (price-level $) 
-	(children-oriented 1)
+    (children-oriented 1)
     (party-oriented 1)
     (specific-entertainment diving)
     (sightseeing 0)
     (sea 1)
     (exotic 0)
-	(out-of-civilization 0)
-	(region near-east)
-	(top-season may jun jul aug sep oct)
-	(far-away 2)
+    (out-of-civilization 0)
+    (region near-east)
+    (top-season may jun jul aug sep oct)
+    (far-away 2)
   )
-	; =================================================================
+    ; =================================================================
   
   (location 
     (location-name Vietnam)
@@ -405,10 +405,155 @@
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 2)
   )
+
+  (location 
+    (location-name Germany)
+    (popularity 5)
+    (russian-lang 0)
+    (trip-availiable 1)
+    (price-level $$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping)
+    (sightseeing 1)
+    (sea 0)
+    (exotic 0)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
+
+  (location 
+    (location-name France)
+    (popularity 6)
+    (russian-lang 0)
+    (trip-availiable 0)
+    (price-level $$$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping)
+    (sightseeing 1)
+    (sea 0)
+    (exotic 0)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
+
+  (location 
+    (location-name London)
+    (popularity 5)
+    (russian-lang 0)
+    (trip-availiable 0)
+    (price-level $$$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping)
+    (sightseeing 1)
+    (sea 0)
+    (exotic 1)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
+
+  ; FIXME
+  (location 
+    (location-name Scotland)
+    (popularity 4)
+    (russian-lang 0)
+    (trip-availiable 1)
+    (price-level $) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping motocross)
+    (sightseeing 1)
+    (sea 1)
+    (exotic 0)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
+
+  (location 
+    (location-name Ireland)
+    (popularity 4)
+    (russian-lang 0)
+    (trip-availiable 1)
+    (price-level $$) 
+    (children-oriented 0)
+    (party-oriented 1)
+    (specific-entertainment shopping motocross safari)
+    (sightseeing 1)
+    (sea 1)
+    (exotic 1)
+    (out-of-civilization 1)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
+
+  (location 
+    (location-name Barcelona)
+    (popularity 6)
+    (russian-lang 0)
+    (trip-availiable 0)
+    (price-level $$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping)
+    (sightseeing 1)
+    (sea 1)
+    (exotic 1)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 4)
+  )
+
+  (location 
+    (location-name Portugal)
+    (popularity 5)
+    (russian-lang 0)
+    (trip-availiable 1)
+    (price-level $$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping motocross)
+    (sightseeing 0)
+    (sea 1)
+    (exotic 0)
+    (out-of-civilization 1)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 4)
+  )
+
+  (location 
+    (location-name Italy)
+    (popularity 6)
+    (russian-lang 0)
+    (trip-availiable 1)
+    (price-level $$$) 
+    (children-oriented 1)
+    (party-oriented 1)
+    (specific-entertainment shopping)
+    (sightseeing 1)
+    (sea 0)
+    (exotic 1)
+    (out-of-civilization 0)
+    (region europa)
+    (top-season march apr may jun jul aug sep oct nov)
+    (far-away 3)
+  )
 )
 
 (deffacts question-set
-	    (question (answer-name price-level)
+        (question (answer-name price-level)
             (the-question "How much money are you ready to spend?" )
             (valid-answers $ $$ $$$ $$$$))
     
@@ -418,23 +563,23 @@
     ;
     (question (answer-name sea)
             (the-question "Do you want to go to the sea?" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     ;
     (question (answer-name russian-lang)
             (the-question "Can you speek English?" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     ;
     (question (answer-name trip-around)
             (the-question "Are planning to trip around?" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     ;
     (question (answer-name sightseeing)
             (the-question "Do you want some sightseeing?" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     ;
     (question (answer-name out-of-civilization)
             (the-question "Do you need civilization around there?" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     
     (question (answer-name specific-entertainment)
             (the-question "What activities to you want to have?" )
@@ -454,11 +599,11 @@
     ;
     (question (answer-name exotic)
             (the-question "Wanna have some exotic?))" )
-            (valid-answers yes no "no matter"))
+            (valid-answers yes no mb))
     
     (question (answer-name region)
             (the-question "What region you wanna go?" )
-            (valid-answers africa far-east near-east russia america "no matter"))
+            (valid-answers africa far-east near-east russia america mb))
 )
 
 (deffunction count-facts (?template)
@@ -468,38 +613,38 @@
  ?count)
  
 (deffunction end (?template) 
-	(do-for-all-facts ((?loc location)) TRUE 
-		(printout t "Destination found: ")
-		(printout t ?loc:location-name crlf))
-	(if (= (count-facts location) 0) then (printout t "Nothing found" crlf))
-	(do-for-all-facts ((?fct ?template)) TRUE
-		(retract ?fct))
+    (do-for-all-facts ((?loc location)) TRUE 
+        (printout t "Destination found: ")
+        (printout t ?loc:location-name crlf))
+    (if (= (count-facts location) 0) then (printout t "Nothing found" crlf))
+    (do-for-all-facts ((?fct ?template)) TRUE
+        (retract ?fct))
 )
 
 (deffunction ask (?question ?allowed-values)
-	   (printout t (count-facts location) crlf)
-	   (bind ?number (count-facts location))
-	   (if (< ?number 3) then 
-	   (printout t "Stop" crlf)
-	   (end question)
-	   else
-	   (printout t ?question crlf)
-	   (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
-	   (bind ?got-answer (read))
-	   (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
-	   (if (not (eq (length$ ?allowed-values) 0)) then 
-		  (while (not (member$ ?got-answer ?allowed-values)) do
-			(printout t ?question)
-			(bind ?got-answer (read))
-			(if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
-		)?got-answer)
+       (printout t (count-facts location) crlf)
+       (bind ?number (count-facts location))
+       (if (< ?number 3) then 
+       (printout t "Stop" crlf)
+       (end question)
+       else
+       (printout t ?question crlf)
+       (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
+       (bind ?got-answer (read))
+       (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
+       (if (not (eq (length$ ?allowed-values) 0)) then 
+          (while (not (member$ ?got-answer ?allowed-values)) do
+            (printout t ?question)
+            (bind ?got-answer (read))
+            (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
+        )?got-answer)
 )
 
 
 (defrule ask-a-question
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
-				   (answer-name ?name))
+                   (answer-name ?name))
    =>
    (assert (answer (name ?name)
             (value (ask ?the-question ?valid-answers))))
@@ -509,17 +654,17 @@
     (answer (name top-season) (value ?value))
     ?dest <- (location (location-name ?name) (top-season $?season))
     => 
-	(if (not (member$ ?value ?season)) then 
-	(retract ?dest))
+    (if (not (member$ ?value ?season)) then 
+    (retract ?dest))
 )
 
 (defrule select-price "Select price" 
     (answer (name price-level) (value ?value))
     ?dest <- (location (location-name ?name) (price-level ?price))
     => 
-	(if (> (length$ ?price) (length$ ?value)) then 
-	(retract ?dest)
-	)
+    (if (> (length$ ?price) (length$ ?value)) then 
+        (retract ?dest)
+    )
 )
 
 
@@ -527,28 +672,28 @@
     (answer (name region) (value ?value))  
     ?dest <- (location (location-name ?name) (region ~?value))
     => 
-	(retract ?dest)
+    (retract ?dest)
 )
 
 (defrule select-near "If destination should be near" 
     (answer (name far-away) (value near))  
     ?dest <- (location (location-name ?name) (far-away ?value))
     => 
-	(if (> ?value 2) then (retract ?dest))
+    (if (> ?value 2) then (retract ?dest))
 )
 
 (defrule select-normal "If destination should be not far" 
     (answer (name far-away) (value normal))  
     ?dest <- (location (location-name ?name) (far-away ?value))
     => 
-	(if (> ?value 6) then (retract ?dest))
+    (if (> ?value 6) then (retract ?dest))
 )
 
 (defrule select-specific-entertainment-value "Select specific-entertainment" 
     (answer (name specific-entertainment) (value ?value))
-	?dest <- (location (location-name ?name) (specific-entertainment ?entertainment))
+    ?dest <- (location (location-name ?name) (specific-entertainment ?entertainment))
     => 
-	(if (not (member$ ?value ?entertainment)) then 
+    (if (and (not (member$ ?value ?entertainment)) (not (eq ?value none))) then 
     (retract ?dest))
 )
 
@@ -599,29 +744,17 @@
 )
 
 (defrule select-children-yes "Select children" 
-    (answer (name children-oriented) (value yes))
+    (answer (name children-oriented) (value ?value))
     ?dest <- (location (children-oriented 0))
     => 
-    (retract ?dest)
-)
-(defrule select-children-no "Select children" 
-    (answer (name children-oriented) (value no))
-    ?dest <- (location (children-oriented 1))
-    => 
-    (retract ?dest)
+    (if (> ?value 0) then (retract ?dest))
 )
 
 (defrule select-party-yes "Select party" 
     (answer (name party-oriented) (value yes))
     ?dest <- (location (party-oriented 0))
     => 
-    (retract ?dest)
-)
-(defrule select-party-no "Select party" 
-    (answer (name party-oriented) (value no))
-    ?dest <- (location (party-oriented 1))
-    => 
-    (retract ?dest)
+    (if (> ?value 0) then (retract ?dest))
 )
 
 (defrule select-exotic-yes "Select exotic" 
@@ -639,14 +772,14 @@
 )
 
 (defrule select-beach-yes "Select sea holiday" 
-	(answer (name sea) (value yes))
-	?dest <- (location (sea 0))
-	=> 
-	(retract ?dest)
+    (answer (name sea) (value yes))
+    ?dest <- (location (sea 0))
+    => 
+    (retract ?dest)
 )
 (defrule select-beach-no "Select sea holiday" 
-	(answer (name sea) (value no))
-	?dest <- (location (sea 1))
-	=> 
-	(retract ?dest)
+    (answer (name sea) (value no))
+    ?dest <- (location (sea 1))
+    => 
+    (retract ?dest)
 )
