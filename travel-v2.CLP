@@ -768,9 +768,12 @@
 )
 
 (deffacts question-set
-        (question (answer-name price-level)
-            (the-question "How much money are you ready to spend?" )
-            (valid-answers $ $$ $$$ $$$$))
+	(question (answer-name exit)
+        (the-question "All questions asked. Do you want to terminate?" )
+        (valid-answers yes no))
+    (question (answer-name price-level)
+        (the-question "How much money are you ready to spend?" )
+        (valid-answers $ $$ $$$ $$$$))
     
     (question (answer-name far-away)
             (the-question "How far you want to go?" )
@@ -802,11 +805,11 @@
     ;
     (question (answer-name children-oriented)
             (the-question "Are you going with children?" )
-            (valid-answers yes no))
+            (valid-answers yes no mb))
     ;
     (question (answer-name party-oriented)
             (the-question "Are you going a big party?" )
-            (valid-answers yes no))
+            (valid-answers yes no mb))
     
     (question (answer-name top-season)
             (the-question "When are you planning to go?" )
@@ -827,21 +830,22 @@
     (bind ?count (+ ?count 1)))
  ?count)
  
-(deffunction end (?template) 
+ (deffunction destruct (?template)
+	(do-for-all-facts ((?fct ?template)) TRUE
+        (retract ?fct))
+ )
+ 
+(deffunction end ()
     (do-for-all-facts ((?loc location)) TRUE 
         (printout t "Destination found: ")
         (printout t ?loc:location-name crlf))
     (if (= (count-facts location) 0) then (printout t "Nothing found" crlf))
-    (do-for-all-facts ((?fct ?template)) TRUE
-        (retract ?fct))
 )
 
 (deffunction ask (?question ?allowed-values)
-       (printout t (count-facts location) crlf)
        (bind ?number (count-facts location))
        (if (< ?number 3) then 
-       (printout t "Stop" crlf)
-       (end question)
+       (destruct question)
        else
        (printout t ?question crlf)
        (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
@@ -908,8 +912,9 @@
     (answer (name specific-entertainment) (value ?value))
     ?dest <- (location (location-name ?name) (specific-entertainment ?entertainment))
     => 
-    (if (and (not (member$ ?value ?entertainment)) (not (eq ?value none))) then 
-    (retract ?dest))
+	(if (not (eq ?value none)) then 
+    (if (not (member$ ?value ?entertainment)) then 
+    (retract ?dest)))
 )
 
 (defrule select-english-no "Select lang" 
@@ -951,6 +956,7 @@
     => 
     (retract ?dest)
 )
+
 (defrule select-civilization-no "Select civilization" 
     (answer (name out-of-civilization) (value no))
     ?dest <- (location (out-of-civilization 1))
@@ -959,18 +965,33 @@
 )
 
 (defrule select-children-yes "Select children" 
-    (answer (name children-oriented) (value ?value))
+    (answer (name children-oriented) (value yes))
     ?dest <- (location (children-oriented 0))
     => 
-    (if (> ?value 0) then (retract ?dest))
+    (retract ?dest)
+)
+
+(defrule select-children-no "Select children" 
+    (answer (name children-oriented) (value no))
+    ?dest <- (location (children-oriented 1))
+    => 
+    (retract ?dest)
 )
 
 (defrule select-party-yes "Select party" 
-    (answer (name party-oriented) (value ?value))
+    (answer (name party-oriented) (value yes))
     ?dest <- (location (party-oriented 0))
     => 
-    (if (> ?value 0) then (retract ?dest))
+    (retract ?dest)
 )
+
+(defrule select-party-no "Select party" 
+    (answer (name party-oriented) (value no))
+    ?dest <- (location (party-oriented 1))
+    => 
+    (retract ?dest)
+)
+
 
 (defrule select-exotic-yes "Select exotic" 
     (answer (name exotic) (value yes))
@@ -997,4 +1018,9 @@
     ?dest <- (location (sea 1))
     => 
     (retract ?dest)
+)
+
+(defrule finish "Finish"
+	=> 
+	(end)
 )
