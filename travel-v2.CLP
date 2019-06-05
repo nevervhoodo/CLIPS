@@ -829,14 +829,14 @@
         (valid-answers near normal far)
     )
     (question
-        (answer-name russian-lang)
-        (the-question "Can you speek English?" )
-        (valid-answers yes no)
-    )
-    (question
         (answer-name price-level)
         (the-question "How much money are you ready to spend?" )
         (valid-answers $ $$ $$$ $$$$)
+    )
+    (question
+        (answer-name russian-lang)
+        (the-question "Can you speek English?" )
+        (valid-answers yes no)
     )
 )
 
