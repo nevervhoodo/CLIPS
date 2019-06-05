@@ -384,7 +384,7 @@
     (exotic 1)
     (out-of-civilization 2)
     (region america)
-    (top-season oct nov dec jan feb march apr)
+    (top-season oct nov dec jan feb march apr jun jul aug)
     (far-away 7)
   )
 
@@ -636,7 +636,7 @@
     (exotic 0)
     (out-of-civilization 2)
     (region europa)
-    (top-season march apr may jun jul aug sep oct nov)
+    (top-season march apr may jun jul aug sep oct nov dec jan)
     (far-away 3)
   )
 
@@ -654,7 +654,7 @@
     (exotic 0)
     (out-of-civilization 2)
     (region europa)
-    (top-season march apr may jun jul aug sep oct nov)
+    (top-season march apr may jun jul aug sep oct nov dec jan)
     (far-away 3)
   )
 
@@ -768,60 +768,76 @@
 )
 
 (deffacts question-set
-	(question (answer-name exit)
+	(question
+        (answer-name exit)
         (the-question "All questions asked. Do you want to terminate?" )
-        (valid-answers yes no))
-    (question (answer-name price-level)
+        (valid-answers yes no)
+    )
+    (question
+        (answer-name sea)
+        (the-question "Do you want to go to the sea?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name trip-around)
+        (the-question "Are planning to trip around?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name sightseeing)
+        (the-question "Do you want some sightseeing?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name out-of-civilization)
+        (the-question "Do you need civilization around there?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name exotic)
+        (the-question "Wanna have some exotic?))" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name children-oriented)
+        (the-question "Are you going with children?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name party-oriented)
+        (the-question "Are you going a big party?" )
+        (valid-answers yes no mb)
+    )
+    (question
+        (answer-name top-season)
+        (the-question "When are you planning to go?" )
+        (valid-answers jan feb march apr may jun jul aug sep oct nov dec)
+    )
+    (question
+        (answer-name specific-entertainment)
+        (the-question "What activities to you want to have?" )
+        (valid-answers diving motocross safari surfing shopping ski none)
+    )
+    (question
+        (answer-name region)
+        (the-question "What region you wanna go?" )
+        (valid-answers europa africa far-east near-east russia america mb)
+    )
+    (question
+        (answer-name far-away)
+        (the-question "How far you want to go?" )
+        (valid-answers near normal far)
+    )
+    (question
+        (answer-name russian-lang)
+        (the-question "Can you speek English?" )
+        (valid-answers yes no)
+    )
+    (question
+        (answer-name price-level)
         (the-question "How much money are you ready to spend?" )
-        (valid-answers $ $$ $$$ $$$$))
-    
-    (question (answer-name far-away)
-            (the-question "How far you want to go?" )
-            (valid-answers near normal far))
-    ;
-    (question (answer-name sea)
-            (the-question "Do you want to go to the sea?" )
-            (valid-answers yes no mb))
-    ;
-    (question (answer-name russian-lang)
-            (the-question "Can you speek English?" )
-            (valid-answers yes no mb))
-    ;
-    (question (answer-name trip-around)
-            (the-question "Are planning to trip around?" )
-            (valid-answers yes no mb))
-    ;
-    (question (answer-name sightseeing)
-            (the-question "Do you want some sightseeing?" )
-            (valid-answers yes no mb))
-    ;
-    (question (answer-name out-of-civilization)
-            (the-question "Do you need civilization around there?" )
-            (valid-answers yes no mb))
-    
-    (question (answer-name specific-entertainment)
-            (the-question "What activities to you want to have?" )
-            (valid-answers diving motocross safari surfing shopping ski none))
-    ;
-    (question (answer-name children-oriented)
-            (the-question "Are you going with children?" )
-            (valid-answers yes no mb))
-    ;
-    (question (answer-name party-oriented)
-            (the-question "Are you going a big party?" )
-            (valid-answers yes no mb))
-    
-    (question (answer-name top-season)
-            (the-question "When are you planning to go?" )
-            (valid-answers jan feb march apr may jun jul aug sep oct nov dec))
-    ;
-    (question (answer-name exotic)
-            (the-question "Wanna have some exotic?))" )
-            (valid-answers yes no mb))
-    
-    (question (answer-name region)
-            (the-question "What region you wanna go?" )
-            (valid-answers europa africa far-east near-east russia america mb))
+        (valid-answers $ $$ $$$ $$$$)
+    )
 )
 
 (deffunction count-facts (?template)
