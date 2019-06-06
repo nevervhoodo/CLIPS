@@ -635,7 +635,7 @@
     (sea 0)
     (exotic 0)
     (out-of-civilization 2)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov dec jan)
     (far-away 3)
   )
@@ -653,7 +653,7 @@
     (sea 0)
     (exotic 0)
     (out-of-civilization 2)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov dec jan)
     (far-away 3)
   )
@@ -671,7 +671,7 @@
     (sea 0)
     (exotic 1)
     (out-of-civilization 2)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 3)
   )
@@ -689,7 +689,7 @@
     (sea 1)
     (exotic 0)
     (out-of-civilization 1)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 3)
   )
@@ -707,7 +707,7 @@
     (sea 1)
     (exotic 1)
     (out-of-civilization 1)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 3)
   )
@@ -725,7 +725,7 @@
     (sea 1)
     (exotic 1)
     (out-of-civilization 1)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 4)
   )
@@ -743,7 +743,7 @@
     (sea 1)
     (exotic 0)
     (out-of-civilization 1)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 4)
   )
@@ -761,7 +761,7 @@
     (sea 0)
     (exotic 1)
     (out-of-civilization 2)
-    (region europa)
+    (region europe)
     (top-season march apr may jun jul aug sep oct nov)
     (far-away 3)
   )
@@ -779,7 +779,7 @@
         (valid-answers yes no mb)
     )
     (question
-        (answer-name trip-around)
+        (answer-name trip-availiable)
         (the-question "Are planning to trip around?" )
         (valid-answers yes no mb)
     )
@@ -821,7 +821,7 @@
     (question
         (answer-name region)
         (the-question "What region you wanna go?" )
-        (valid-answers europa africa far-east near-east russia america mb)
+        (valid-answers europe africa far-east near-east russia america mb)
     )
     (question
         (answer-name far-away)
@@ -893,6 +893,8 @@
                    (valid-answers $?valid-answers)
                    (answer-name ?name))
    =>
+    (do-for-all-facts ((?loc location)) TRUE
+    (printout t ?loc:location-name crlf)) 
    (assert (answer (name ?name)
             (value (ask ?the-question ?valid-answers))))
 )
@@ -953,13 +955,13 @@
     (retract ?dest)
 )
 
-(defrule select-trip-around-yes "Select trip-around" 
+(defrule select-trip-availiable-yes "Select trip-availiable" 
     (answer (name trip-availiable) (value yes))
     ?dest <- (location (trip-availiable 0))
     => 
     (retract ?dest)
 )
-(defrule select-trip-around-no "Select trip-around" 
+(defrule select-trip-availiable-no "Select trip-availiable" 
     (answer (name trip-availiable) (value no))
     ?dest <- (location (trip-availiable 1))
     => 
