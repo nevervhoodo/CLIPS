@@ -768,7 +768,7 @@
 )
 
 (deffacts question-set
-	(question (answer-name exit)
+(question (answer-name exit)
         (the-question "All questions asked. Do you want to terminate?" )
         (valid-answers yes no))
     (question (answer-name price-level)
@@ -891,7 +891,8 @@
     (answer (name region) (value ?value))  
     ?dest <- (location (location-name ?name) (region ~?value))
     => 
-    (retract ?dest)
+	(if (not (eq ?value mb)) then 
+    (retract ?dest))
 )
 
 (defrule select-near "If destination should be near" 
@@ -910,7 +911,7 @@
 
 (defrule select-specific-entertainment-value "Select specific-entertainment" 
     (answer (name specific-entertainment) (value ?value))
-    ?dest <- (location (location-name ?name) (specific-entertainment ?entertainment))
+    ?dest <- (location (location-name ?name) (specific-entertainment $?entertainment))
     => 
 	(if (not (eq ?value none)) then 
     (if (not (member$ ?value ?entertainment)) then 
