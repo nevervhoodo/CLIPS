@@ -44,6 +44,12 @@
     (slot value)
 )
 
+(deftemplate start
+	(slot name)
+)
+
+(deffacts str (start (name "start")))
+
 (deffacts the_location_list
   (location
     (location-name Moscow)
@@ -768,10 +774,10 @@
 )
 
 (deffacts question-set
-    	(question
-        (answer-name exit)
-        (the-question "All questions asked. Do you want to terminate?" )
-        (valid-answers yes no)
+	(question
+        (answer-name far-away)
+        (the-question "How far are you ready to go?" )
+        (valid-answers near normal far)
     )
     (question
         (answer-name sea)
@@ -824,11 +830,6 @@
         (valid-answers europe africa far-east near-east russia america mb)
     )
     (question
-        (answer-name far-away)
-        (the-question "How far you want to go?" )
-        (valid-answers near normal far)
-    )
-    (question
         (answer-name price-level)
         (the-question "How much money are you ready to spend?" )
         (valid-answers $ $$ $$$ $$$$)
@@ -856,6 +857,91 @@
         (printout t "Destination found: ")
         (printout t ?loc:location-name crlf))
     (if (= (count-facts location) 0) then (printout t "Nothing found" crlf))
+	(printout t "The execution is over. If you want to repeat type yes" crlf)
+	(bind ?repeat (read))
+	(if (eq ?repeat yes) then (reset) (destruct start) (run) else (printout t "Bye" crlf))
+)
+
+
+(deffunction cmd-process (?cmd)
+	(if (eq ?cmd #exit) then (destruct question))
+		
+	(if (eq ?cmd #show) then (do-for-all-facts ((?loc location)) TRUE
+    (printout t ?loc:location-name " "))
+	(printout t crlf))
+	
+	(if (eq ?cmd #status) then (bind ?locations (count-facts location)) 
+	(printout t ?locations "/")
+	(printout t	"40 ") 
+	(printout t "Locations ")
+	(printout t "selected" crlf))
+	
+	(if (eq ?cmd #info) then 
+	(printout t "What location do you want to lear about?" crlf)
+	(bind ?got-answer (read))
+	(do-for-all-facts ((?loc location)) (eq ?loc:location-name ?got-answer) 
+        (printout t "Location: " ?loc:location-name crlf)
+		(printout t "Region: " ?loc:region crlf)
+		(printout t "Price level: " ?loc:price-level crlf)
+		(printout t "May be visited in: " ?loc:top-season crlf)
+		(if (eq ?loc:russian-lang 0) then (printout t "You should know English" crlf))
+		(if (eq ?loc:trip-availiable 0) then (printout t "Nowhere to hang around" crlf) else 
+			(printout t "It's possible to investigate surroundings" crlf))
+		(if (eq ?loc:children-oriented 1) then (printout t "Fits for children" crlf))
+		(if (eq ?loc:party-oriented 1) then (printout t "Good for parties" crlf))
+		(if (eq ?loc:sightseeing 1) then (printout t "Has interesting sights" crlf))
+		(if (eq ?loc:sea 1) then (printout t "Good for beach holiday" crlf))
+		(if (eq ?loc:exotic 1) then (printout t "Has some kind of exotics" crlf))
+		(if (eq ?loc:out-of-civilization 0) then (printout t "Has no civilization around" crlf))
+		(if (eq ?loc:out-of-civilization 1) then (printout t "It's possible to stay somewhere out of civilization" crlf))
+		(printout t "Possible specific entertainments: " ?loc:specific-entertainment crlf)
+		(printout t "Destination popularity is " ?loc:popularity "/10" crlf)
+		(printout t "Far away from home " ?loc:far-away "/10" crlf)
+		(printout t crlf)
+	))
+	
+	(if (eq ?cmd #help) then 
+		(printout t "Trip recomendation system" crlf)
+		(printout t "Usage: answer the questions, type #[command-name] if you want to do something special" crlf)
+		(printout t "Possible command-name: " crlf)
+		(printout t "    #status: the number of currently matched locations" crlf)
+		(printout t "    #show: print currently mathced location names" crlf)
+		(printout t "    #info: get info about any location" crlf)
+		(printout t "    #exit: return matched locations and exit" crlf)
+		(printout t "    #help: get this message" crlf)
+		(printout t crlf)
+	)
+)
+
+
+(deffunction ask (?question ?allowed-values)
+       (bind ?number (count-facts location))
+       (if (< ?number 3) then 
+       (destruct question)
+        else
+       (printout t ?question crlf)
+       (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
+       (bind ?got-answer (read))
+       (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
+       (if (not (eq (length$ ?allowed-values) 0)) then 
+          (while (not (member$ ?got-answer ?allowed-values)) do
+			(if (member$ ?got-answer (create$ #exit #show #status #help #info)) then 
+			(cmd-process ?got-answer) 
+			)
+			(if (not (eq ?got-answer #exit)) then 
+            (printout t ?question crlf)
+            (bind ?got-answer (read))
+            (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))) else
+			(break))
+		   )
+        )?got-answer)
+)
+
+(defrule start (declare (salience 1000))
+	?run <- (start)
+	=>
+	(cmd-process #help)
+	(retract ?run)
 )
 
 (defrule differ 
@@ -870,33 +956,12 @@
 	(if (eq ?result 0) then (retract ?qst))
 )
 
-(deffunction ask (?question ?allowed-values)
-       (bind ?number (count-facts location))
-       (if (< ?number 3) then 
-       (destruct question)
-       else
-       (printout t ?question crlf)
-       (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
-       (bind ?got-answer (read))
-       (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
-       (if (not (eq (length$ ?allowed-values) 0)) then 
-          (while (not (member$ ?got-answer ?allowed-values)) do
-            (printout t ?question)
-            (bind ?got-answer (read))
-            (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))))
-        )?got-answer)
-)
-
-
 (defrule ask-a-question
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
                    (answer-name ?name))
    =>
-    (do-for-all-facts ((?loc location)) TRUE
-    (printout t ?loc:location-name crlf)) 
-   (assert (answer (name ?name)
-            (value (ask ?the-question ?valid-answers))))
+    (assert (answer (name ?name) (value (ask ?the-question ?valid-answers))))
 )
 
 (defrule select-month "Select month" 
@@ -915,7 +980,6 @@
         (retract ?dest)
     )
 )
-
 
 (defrule select-region-value "Select region" 
     (answer (name region) (value ?value))  
@@ -1044,12 +1108,14 @@
     => 
     (retract ?dest)
 )
+
 (defrule select-beach-no "Select sea holiday" 
     (answer (name sea) (value no))
     ?dest <- (location (sea 1))
     => 
     (retract ?dest)
 )
+
 
 (defrule finish "Finish"
 	=> 
