@@ -807,12 +807,12 @@
     (question
         (answer-name children-oriented)
         (the-question "Are you going with children?" )
-        (valid-answers yes no mb)
+        (valid-answers yes no)
     )
     (question
         (answer-name party-oriented)
         (the-question "Are you going a big party?" )
-        (valid-answers yes no mb)
+        (valid-answers yes no)
     )
     (question
         (answer-name top-season)
@@ -944,7 +944,7 @@
 	(retract ?run)
 )
 
-(defrule differ 
+(defrule differ
 	?qst <- (question (answer-name ?slot))
 	=>
 	(bind ?value NOOOO)
