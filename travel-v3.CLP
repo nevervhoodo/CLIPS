@@ -857,9 +857,6 @@
         (printout t "Destination found: ")
         (printout t ?loc:location-name crlf))
     (if (= (count-facts location) 0) then (printout t "Nothing found" crlf))
-	(printout t "The execution is over. If you want to repeat type yes" crlf)
-	(bind ?repeat (read))
-	(if (eq ?repeat yes) then (reset) (destruct start) (run) else (printout t "Bye" crlf))
 )
 
 
@@ -908,8 +905,16 @@
 		(printout t "    #show: print currently mathced location names" crlf)
 		(printout t "    #info: get info about any location" crlf)
 		(printout t "    #exit: return matched locations and exit" crlf)
+		(printout t "    #restart: can be called only after execution is completed" crlf)
 		(printout t "    #help: get this message" crlf)
 		(printout t crlf)
+	)
+	
+	(if (eq ?cmd #restart) then 
+		(destruct question)
+		(reset)
+		(destruct start)
+		(run)
 	)
 )
 
@@ -1120,4 +1125,9 @@
 (defrule finish "Finish"
 	=> 
 	(end)
+	(printout t "The execution is over. You have last chance to input any coomand :)" crlf)
+	(bind ?repeat (read))
+	(if (member$ ?repeat (create$ #exit #show #status #help #info #restart)) then 
+		(cmd-process ?repeat) 
+	)
 )
