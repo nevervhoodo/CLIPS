@@ -27,10 +27,6 @@
   (slot far-away (type INTEGER))
 )
 
-(deftemplate stop
-    (slot finished (default FALSE))
-)
-
 (deftemplate response (slot destination))
 
 (deftemplate question
@@ -48,7 +44,13 @@
 	(slot name)
 )
 
+(deftemplate finish
+	(slot name)
+)
+
 (deffacts str (start (name "start")))
+(deffacts fin (finish (name "finish")))
+
 
 (deffacts the_location_list
   (location
@@ -821,7 +823,7 @@
     )
     (question
         (answer-name specific-entertainment)
-        (the-question "What activities to you want to have?" )
+        (the-question "What activities do you want to perform?" )
         (valid-answers diving motocross safari surfing shopping ski none)
     )
     (question
@@ -916,30 +918,54 @@
 		(destruct start)
 		(run)
 	)
+	
+	(if (eq ?cmd #rollback) then
+	
+		(printout t "Select answer you want to rollback to" crlf)
+		(printout t (count-facts location) " " (count-facts question) crlf)
+		(do-for-all-facts ((?ans answer)) TRUE
+			(printout t ?ans:name " " ?ans:value crlf)
+		)
+		(bind ?selected (read))
+		(bind ?flag 0)
+		(do-for-all-facts ((?ans answer)) TRUE
+			(if (eq ?selected ?ans:name) then (bind ?flag 1))
+			(if (eq ?flag 1) then (retract ?ans))
+		)
+		(save-facts "tmp.CLP" visible answer)
+		(reset)
+		(destruct start)
+		(load-facts "tmp.CLP")
+		(do-for-all-facts ((?ans answer) (?qst question)) (eq ?ans:name ?qst:answer-name)
+			(retract ?qst)
+		)
+		(run)
+	)
 )
 
 
 (deffunction ask (?question ?allowed-values)
        (bind ?number (count-facts location))
-       (if (< ?number 3) then 
+       (if (< ?number 4) then 
        (destruct question)
         else
        (printout t ?question crlf)
        (if (not (eq (length$ ?allowed-values) 0)) then (printout t "Select one of: " ?allowed-values crlf))
        (bind ?got-answer (read))
        (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)))
+	   (bind ?answer ?got-answer)
        (if (not (eq (length$ ?allowed-values) 0)) then 
           (while (not (member$ ?got-answer ?allowed-values)) do
-			(if (member$ ?got-answer (create$ #exit #show #status #help #info)) then 
+			(if (member$ ?got-answer (create$ #exit #show #status #help #info #rollback)) then 
 			(cmd-process ?got-answer) 
 			)
-			(if (not (eq ?got-answer #exit)) then 
+			(if (and (not (eq ?got-answer #exit)) (not (eq ?got-answer #rollback))) then 
             (printout t ?question crlf)
             (bind ?got-answer (read))
-            (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer))) else
-			(break))
+            (if (lexemep ?got-answer) then (bind ?got-answer (lowcase ?got-answer)) (bind ?answer ?got-answer)) else
+			(break) else (bind ?answer STOP)(break))
 		   )
-        )?got-answer)
+        )?answer)
 )
 
 (defrule start (declare (salience 1000))
@@ -961,15 +987,18 @@
 	(if (eq ?result 0) then (retract ?qst))
 )
 
-(defrule ask-a-question
+(defrule ask-a-question (declare (salience 0))
    ?f <- (question (the-question ?the-question)
                    (valid-answers $?valid-answers)
                    (answer-name ?name))
    =>
-    (assert (answer (name ?name) (value (ask ?the-question ?valid-answers))))
+   (bind ?answer (ask ?the-question ?valid-answers))
+   (if (not (eq ?answer STOP)) then 
+		(assert (answer (name ?name) (value ?answer)))
+	)
 )
 
-(defrule select-month "Select month" 
+(defrule select-month "Select month" (declare (salience 10))
     (answer (name top-season) (value ?value))
     ?dest <- (location (location-name ?name) (top-season $?season))
     => 
@@ -977,7 +1006,7 @@
     (retract ?dest))
 )
 
-(defrule select-price "Select price" 
+(defrule select-price "Select price" (declare (salience 10))
     (answer (name price-level) (value ?value))
     ?dest <- (location (location-name ?name) (price-level ?price))
     => 
@@ -986,7 +1015,7 @@
     )
 )
 
-(defrule select-region-value "Select region" 
+(defrule select-region-value "Select region" (declare (salience 10))
     (answer (name region) (value ?value))  
     ?dest <- (location (location-name ?name) (region ~?value))
     => 
@@ -994,21 +1023,21 @@
     (retract ?dest))
 )
 
-(defrule select-near "If destination should be near" 
+(defrule select-near "If destination should be near" (declare (salience 10))
     (answer (name far-away) (value near))  
     ?dest <- (location (location-name ?name) (far-away ?value))
     => 
     (if (> ?value 2) then (retract ?dest))
 )
 
-(defrule select-normal "If destination should be not far" 
+(defrule select-normal "If destination should be not far" (declare (salience 10))
     (answer (name far-away) (value normal))  
     ?dest <- (location (location-name ?name) (far-away ?value))
     => 
     (if (> ?value 6) then (retract ?dest))
 )
 
-(defrule select-specific-entertainment-value "Select specific-entertainment" 
+(defrule select-specific-entertainment-value "Select specific-entertainment" (declare (salience 10))
     (answer (name specific-entertainment) (value ?value))
     ?dest <- (location (location-name ?name) (specific-entertainment $?entertainment))
     => 
@@ -1017,75 +1046,75 @@
     (retract ?dest)))
 )
 
-(defrule select-english-no "Select lang" 
+(defrule select-english-no "Select lang" (declare (salience 10))
     (answer (name russian-lang) (value no))
     ?dest <- (location (russian-lang 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-trip-availiable-yes "Select trip-availiable" 
+(defrule select-trip-availiable-yes "Select trip-availiable" (declare (salience 10))
     (answer (name trip-availiable) (value yes))
     ?dest <- (location (trip-availiable 0))
     => 
     (retract ?dest)
 )
-(defrule select-trip-availiable-no "Select trip-availiable" 
+(defrule select-trip-availiable-no "Select trip-availiable" (declare (salience 10))
     (answer (name trip-availiable) (value no))
     ?dest <- (location (trip-availiable 1))
     => 
     (retract ?dest)
 )
 
-(defrule select-sightseeing-yes "Select sightseeing" 
+(defrule select-sightseeing-yes "Select sightseeing" (declare (salience 10))
     (answer (name sightseeing) (value yes))
     ?dest <- (location (sightseeing 0))
     => 
     (retract ?dest)
 )
-(defrule select-sightseeing-no "Select sightseeing" 
+(defrule select-sightseeing-no "Select sightseeing" (declare (salience 10))
     (answer (name sightseeing) (value no))
     ?dest <- (location (sightseeing 1))
     => 
     (retract ?dest)
 )
 
-(defrule select-civilization-yes "Select civilization" 
+(defrule select-civilization-yes "Select civilization" (declare (salience 10))
     (answer (name out-of-civilization) (value yes))
     ?dest <- (location (out-of-civilization 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-civilization-no "Select civilization" 
+(defrule select-civilization-no "Select civilization" (declare (salience 10))
     (answer (name out-of-civilization) (value no))
     ?dest <- (location (out-of-civilization 2))
     => 
     (retract ?dest)
 )
 
-(defrule select-children-yes "Select children" 
+(defrule select-children-yes "Select children" (declare (salience 10))
     (answer (name children-oriented) (value yes))
     ?dest <- (location (children-oriented 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-children-no "Select children" 
+(defrule select-children-no "Select children" (declare (salience 10))
     (answer (name children-oriented) (value no))
     ?dest <- (location (children-oriented 1))
     => 
     (retract ?dest)
 )
 
-(defrule select-party-yes "Select party" 
+(defrule select-party-yes "Select party" (declare (salience 10))
     (answer (name party-oriented) (value yes))
     ?dest <- (location (party-oriented 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-party-no "Select party" 
+(defrule select-party-no "Select party" (declare (salience 10))
     (answer (name party-oriented) (value no))
     ?dest <- (location (party-oriented 1))
     => 
@@ -1093,41 +1122,41 @@
 )
 
 
-(defrule select-exotic-yes "Select exotic" 
+(defrule select-exotic-yes "Select exotic" (declare (salience 10))
     (answer (name exotic) (value yes))
     ?dest <- (location (exotic 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-exotic-no "Select exotic" 
+(defrule select-exotic-no "Select exotic" (declare (salience 10))
     (answer (name exotic) (value no))
     ?dest <- (location (exotic 1))
     => 
     (retract ?dest)
 )
 
-(defrule select-beach-yes "Select sea holiday" 
+(defrule select-beach-yes "Select sea holiday" (declare (salience 10))
     (answer (name sea) (value yes))
     ?dest <- (location (sea 0))
     => 
     (retract ?dest)
 )
 
-(defrule select-beach-no "Select sea holiday" 
+(defrule select-beach-no "Select sea holiday" (declare (salience 10))
     (answer (name sea) (value no))
     ?dest <- (location (sea 1))
     => 
     (retract ?dest)
 )
 
-
-(defrule finish "Finish"
+(defrule finish "Finish" (declare (salience -1))
+	(finish)
 	=> 
 	(end)
-	(printout t "The execution is over. You have last chance to input any coomand :)" crlf)
+	(printout t "The execution is over. You have last chance to input any command :) Input any trash to exit" crlf)
 	(bind ?repeat (read))
-	(if (member$ ?repeat (create$ #exit #show #status #help #info #restart)) then 
+	(if (member$ ?repeat (create$ #exit #show #status #help #info #restart #rollback)) then 
 		(cmd-process ?repeat) 
 	)
 )
